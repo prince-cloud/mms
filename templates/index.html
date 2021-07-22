@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            <div class="shadow-sm p-2 py-2vh">
+                <div class="text-center">
+                    <p class="text-uppercase text-bold">Monica Ama Ansomaa Dartey</p>
+                    <p>Financial Management System</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-2">
+        <div class="col-md-4 m-1 p-1 bg-info d-flex justify-content-between flex-row align-items-center">
+            <p>Total Recived: </p>
+            <p class="amount"> GH₵ {{ total_recieved }}</p>
+        </div>
+        <div class="col-md-4 m-1 p-1 bg-warning d-flex justify-content-between flex-row align-items-center">
+            <p>Total Spent:</p>
+            <p class="amount">GH₵ {{total_spent}}</p>
+        </div>
+        <div class="col-md-4 m-1 p-1 bg-{% if net_balance < 1 %}danger{% else %}success{%endif%} d-flex justify-content-between flex-row align-items-center">
+            <p>Balance: </p>
+            <p class="amount">GH₵ {{ net_balance }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table align-middle">
+                <thead class="table-dark text-center">
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Detail</th>
+                    <th scope="col">qty</th>
+                    <th scope="col text-center">Amt Paid</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for expenditure in expenditures|slice:":10" %}
+                  <tr>
+                    <td>{{ expenditure.date.date }}</td>
+                    <td>{{ expenditure.description }}</td>
+                    {% if expenditure.quantity %}
+                    <td>{{ expenditure.quantity }}</td>
+                    {% else %}
+                    <td> - </td>
+                    {% endif %}
+                    <td>{{ expenditure.amount_paid }}</td>
+                  </tr>
+                  {% endfor %}
+            
+            
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

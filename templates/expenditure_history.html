@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="container footer">
+        <h2 class="text-center bg-white text-dark text-bold">
+            Expnditure history
+        </h2>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-center row pb-3">
+
+
+                <div class="col-md-3 mt-2">
+                    <input type="number" class="form-control" placeholder="day" id="day">
+                </div>
+                <div class="col-md-3 mt-2">
+                    <input type="number" class="form-control" placeholder="month" id="month">
+                </div>
+                <div class="col-md-3 mt-2">
+                    <input type="number" class="form-control" placeholder="year" id="year">
+                </div>
+        
+                <div class="col-3">
+                    <button class="btn btn-success" id="filter">Search</button>
+                </div>
+        
+                <script>
+                    let year = document.getElementById("year");
+                    let month = document.getElementById("month");
+                    let day = document.getElementById("day");
+                    let filter = document.getElementById("filter");
+        
+                    filter.addEventListener("click", function (e) {
+        
+                        let _year = parseInt(year.value);
+                        let _month = parseInt(month.value);
+                        let _day = parseInt(day.value);
+
+                        let route = "{% url 'finance:expenditure_history' %}";
+                        if (_year !== NaN && _year > 0) {
+                            route += + _year;
+                            if (_month !== NaN && _month > 0) {
+                                route += '/' + _month;
+                                if (_day !== NaN && _day > 0) {
+                                    route += '/' + _day;
+                                }
+                            }
+                        }
+                        window.location = route;
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+
+    {% if day or month or year %}
+    <div class="row">
+        <div class="col-md-6">
+            <p>Total Expenditure: <span style="font-weight: bolder;" >GH₵ {{ total_expenditure }}</span></p>
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class="row">
+        <div class="col-12">
+            <table class="table align-middle">
+                <thead class="table-dark text-center">
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Detail</th>
+                    <th scope="col">qty</th>
+                    <th scope="col text-center">Amt Paid</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for expenditure in expenditures %}
+                  <tr>
+                    <td>{{ expenditure.date.date }}</td>
+                    <td>{{ expenditure.description }}</td>
+                    {% if expenditure.quantity %}
+                    <td>{{ expenditure.quantity }}</td>
+                    {% else %}
+                    <td> - </td>
+                    {% endif %}
+                    <td>{{ expenditure.amount_paid }}</td>
+                  </tr>
+                  {% endfor %}
+            
+            
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

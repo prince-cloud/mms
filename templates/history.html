@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+            <div class="col-12">
+                <h2>History</h2>
+            </div>
+    </div>
+    <div class="row text-center p-2">
+        <div class="col-md-6 text-center py-5">
+            <a href="{% url 'finance:expenditure_history' %}" class="btn btn-info btn-block py-5"> Expenditure </a>
+        </div>
+        <div class="col-md-6 text-center py-5">
+            <a href="{% url 'finance:deposite_history' %}" class="btn btn-warning btn-block py-5"> Deposite </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

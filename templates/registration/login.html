@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div class="login-main-page full-screen">
+    <br>
+    <div class="container footer">
+        <h2 class="text-center bg-white text-dark text-bold">
+            Welcome
+        </h2>
+        <p class="text-center">Please Login With your Details</p>
+    </div>
+    <div class="container login-page">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <form method="POST" class="shadow-sm p-5 py-5vh">
+                    <h2 class="text-center">Login</h2>
+                    <br>
+                    {% csrf_token %}
+                    {{ form | crispy }}
+
+                    <p>
+                        <input type="submit" class="btn btn-lg btn-block btn-dark" value="Log In">
+                    </p>
+
+                </form>
+            </div>
+            <!-- <div class="col-md-4 logo">
+            </div> -->
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,140 @@
+.view, body, html {
+    height: 100%
+}
+
+.carousel {
+    height: 50%
+}
+
+.carousel .carousel-inner, .carousel .carousel-inner .active, .carousel .carousel-inner .carousel-item {
+    height: 100%
+}
+
+@media (max-width:776px) {
+    .carousel {
+        height: 100%
+    }
+}
+
+.page-footer {
+    background-color: #929FBA
+}
+
+.img-secondary {
+    object-fit: contain;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+}
+
+.text-bolder{
+    font-weight: bolder;
+}
+
+/* shop detail page */
+.shop-banner-section {
+    min-height: 60vh;
+}
+.bg-overlay {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.avatar-1 {
+    width: 200px;
+    max-width: 200px;
+    height: 160px;
+    max-height: 160px;
+    object-fit: cover;
+}
+@media only screen and (max-width: 768px) {
+    .shop-banner-section {
+        min-height: 40vh;
+    }
+    .shop-title {
+        font-size: 24px;
+    }
+    h1 {
+        font-size: 32px;
+    }
+    .font-xsmall {
+        font-size: 10px;
+    }
+    .font-small {
+        font-size: 12px;
+    }
+    .font-large {
+        font-size: 16px;
+    }
+    .font-medium {
+        font-size: 14px;
+    }
+    .font-xlarge {
+        font-size: 18px;
+    }
+    .d-xs-block {
+        display: block !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .font-xsmall {
+        font-size: 8px;
+    }
+    .font-small {
+        font-size: 10px;
+    }
+    .font-large {
+        font-size: 14px;
+    }
+    .font-medium {
+        font-size: 12px;
+    }
+    .font-xlarge {
+        font-size: 16px;
+    }
+    .product-content .container {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+}
+
+.font-large, .font-large-fixed {
+    font-size: 18px;
+}
+
+.font-xsmall, .font-xsmall-fixed {
+    font-size: 12px;
+}
+
+.h-150 {
+    height: 150px;
+}
+
+.text-bolder {
+    font-weight: bolder;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.text-light-1 {
+    color: #aaa;
+}
+
+.bg-overlay {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bg-overlay-dark {
+    background-position: center;
+    background-color: rgba(0, 0, 0, .3);
+    background-size: cover;
+}
+
+.bg-gray-200{
+    background-color: #EEEEEE;
+}

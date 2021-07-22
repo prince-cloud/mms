@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="container footer">
+        <h2 class="text-center bg-white text-dark text-bold">
+            Deposite history
+        </h2>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-center row pb-3">
+
+
+                <div class="col-md-3 mt-2">
+                    <input type="number" class="form-control" placeholder="day" id="day">
+                </div>
+                <div class="col-md-3 mt-2">
+                    <input type="number" class="form-control" placeholder="month" id="month">
+                </div>
+                <div class="col-md-3 mt-2">
+                    <input type="number" class="form-control" placeholder="year" id="year">
+                </div>
+        
+                <div class="col-3">
+                    <button class="btn btn-success" id="filter">Search</button>
+                </div>
+        
+                <script>
+                    let year = document.getElementById("year");
+                    let month = document.getElementById("month");
+                    let day = document.getElementById("day");
+                    let filter = document.getElementById("filter");
+        
+                    filter.addEventListener("click", function (e) {
+        
+                        let _year = parseInt(year.value);
+                        let _month = parseInt(month.value);
+                        let _day = parseInt(day.value);
+
+                        let route = "{% url 'finance:deposite_history' %}";
+                        if (_year !== NaN && _year > 0) {
+                            route += + _year;
+                            if (_month !== NaN && _month > 0) {
+                                route += '/' + _month;
+                                if (_day !== NaN && _day > 0) {
+                                    route += '/' + _day;
+                                }
+                            }
+                        }
+                        window.location = route;
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+
+    {% if day or month or year %}
+    <div class="row">
+        <div class="col-md-6">
+            <p>Total deposite: <span style="font-weight: bolder;" >GH₵ {{ total_deposite }}</span></p>
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class="row">
+        <div class="col-12">
+            <table class="table align-middle">
+                <thead class="table-dark text-center">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">date</th>
+                    <th scope="col">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for deposite in deposites %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ deposite.date.date }}</td>
+                    <td>{{ deposite.amount }}</td>
+                  </tr>
+                  {% endfor %}
+            
+            
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
