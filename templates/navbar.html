@@ -5,7 +5,7 @@
 
       <!-- Brand -->
       <a class="navbar-brand waves-effect" href="/">
-        <strong class="text-white text-bolder">Monique</strong>
+        <strong class="text-white text-bolder">{{ request.user.username }}</strong>
       </a>
 
       <!-- Collapse -->
@@ -23,18 +23,7 @@
             <a class="nav-link waves-effect" href="/">Home
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link waves-effect" href="{% url 'finance:add_expenditure' %}">
-            Add Expenditure
-          </a>
-          <li class="nav-item">
-            <a class="nav-link waves-effect" href="{% url 'finance:deposite' %}">
-            Deposite
-          </a>
-          <li class="nav-item">
-            <a class="nav-link waves-effect" href="{% url 'finance:approvals' %}">
-            Approvals
-          </a>
+          
           <li class="nav-item">
             <a class="nav-link waves-effect" href="{% url 'finance:history' %}">
             History

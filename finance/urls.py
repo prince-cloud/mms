@@ -11,9 +11,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(), name="logout"),
     path('add_expenditure/', views.add_expenditure, name="add_expenditure"),
-    path('deposite/', views.deposite, name="deposite"),
-    path('approve_deposite/<int:pk>/', views.approve_deposite, name="approve_deposite"),
-    path('approvals/', views.approvals, name="approvals"),
     path('history/', views.history, name="history"),
     path('expenditure/history/', views.expenditure_history, name="expenditure_history"),
     path('deposite/history/', views.deposite_history, name="deposite_history"),
@@ -27,5 +24,11 @@ urlpatterns = [
     path('deposite/history/<int:year>/', views.deposite_history, name="deposite_history"),
     path('deposite/history/<int:year>/<int:month>/', views.deposite_history, name="deposite_history"),
     path('deposite/history/<int:year>/<int:month>/<int:day>/', views.deposite_history, name="deposite_history"),
+
+
+
+    path('bank/to/cash/', views.bank_to_cash, name="bank_to_cash"),
+    path('add_bank/', views.add_bank, name="add_bank"),
+    path('add/cash/', views.add_cash, name="add_cash"),
 
 ]

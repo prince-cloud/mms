@@ -9,7 +9,7 @@
         <div class="col-md-6">
             <div class="shadow-sm p-2 py-2vh">
                 <div class="text-center">
-                    <p class="text-uppercase text-bold">Monica Ama Ansomaa Dartey</p>
+                    <p class="text-uppercase text-bold">{{ request.user.last_name }} {{ request.user.prince }}</p>
                     <p>Financial Management System</p>
                 </div>
             </div>
@@ -17,21 +17,25 @@
     </div>
 
     <div class="row m-2">
-        <div class="col-md-4 m-1 p-1 bg-info d-flex justify-content-between flex-row align-items-center">
+        <!-- <div class="col-md-4 m-1 p-1 bg-info d-flex justify-content-between flex-row align-items-center">
             <p>Total Recived: </p>
             <p class="amount"> GH₵ {{ total_recieved }}</p>
-        </div>
+        </div> -->
         <div class="col-md-4 m-1 p-1 bg-warning d-flex justify-content-between flex-row align-items-center">
             <p>Total Spent:</p>
             <p class="amount">GH₵ {{total_spent}}</p>
         </div>
-        <div class="col-md-4 m-1 p-1 bg-{% if net_balance < 1 %}danger{% else %}success{%endif%} d-flex justify-content-between flex-row align-items-center">
-            <p>Balance: </p>
-            <p class="amount">GH₵ {{ net_balance }}</p>
+        <div class="col-md-4 m-1 p-1 bg-{% if bank_balance < 1 %}danger{% else %}success{%endif%} d-flex justify-content-between flex-row align-items-center">
+            <p>Bank Balance: </p>
+            <p class="amount">GH₵ {{ bank_balance }}</p>
+        </div>
+        <div class="col-md-4 m-1 p-1 bg-{% if cash_balance < 1 %}danger{% else %}success{%endif%} d-flex justify-content-between flex-row align-items-center">
+            <p>Cash Balance </p>
+            <p class="amount">GH₵ {{ cash_balance }}</p>
         </div>
     </div>
 
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-12">
             <table class="table align-middle">
                 <thead class="table-dark text-center">
@@ -59,6 +63,29 @@
             
                 </tbody>
               </table>
+        </div>
+    </div> -->
+
+    <div class="row text-center">
+        <div class="col-md-4 p-1 text-center py-2">
+            <a href="{% url 'finance:add_expenditure' %}" class="btn btn-info btn-block py-5">
+                Add Expense
+            </a>
+        </div>
+        <div class="col-md-4 p-1 text-center py-2">
+            <a href="{% url 'finance:add_cash' %}" class="btn btn-info btn-block py-5">
+                Add To Cash
+            </a>
+        </div>
+        <div class="col-md-4 p-1 text-center py-2">
+            <a href="{% url 'finance:add_bank' %}" class="btn btn-info btn-block py-5">
+                Add To Bank
+            </a>
+        </div>
+        <div class="col-md-4 p-1 text-center py-2">
+            <a href="{% url 'finance:bank_to_cash' %}" class="btn btn-info btn-block py-5">
+                Bank to Cash
+            </a>
         </div>
     </div>
 </div>
