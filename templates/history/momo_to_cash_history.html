@@ -3,18 +3,18 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
+<div class="container shadow">
     <div class="container footer">
         <h2 class="text-center bg-white text-dark text-bold">
-            Deposite history
+            Bank - Cash
         </h2>
     </div>
+
+
 
     <div class="row">
         <div class="col-12">
             <div class="d-flex justify-content-center row pb-3">
-
-
                 <div class="col-md-3 mt-2">
                     <input type="number" class="form-control" placeholder="day" id="day">
                 </div>
@@ -41,7 +41,7 @@
                         let _month = parseInt(month.value);
                         let _day = parseInt(day.value);
 
-                        let route = "{% url 'finance:deposite_history' %}";
+                        let route = "{% url 'finance:momo_to_cash_history' %}";
                         if (_year !== NaN && _year > 0) {
                             route += + _year;
                             if (_month !== NaN && _month > 0) {
@@ -61,7 +61,7 @@
     {% if day or month or year %}
     <div class="row">
         <div class="col-md-6">
-            <p>Total deposite: <span style="font-weight: bolder;" >GH₵ {{ total_deposite }}</span></p>
+            <p>Total deposite: <span style="font-weight: bolder;" >GH₵ {{ total }}</span></p>
         </div>
     </div>
     {% endif %}
@@ -69,7 +69,7 @@
     <div class="row">
         <div class="col-12">
             <table class="table align-middle">
-                <thead class="table-dark text-center">
+                <thead class="table-dark">
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">date</th>
@@ -77,13 +77,18 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {% for deposite in deposites %}
+                  {% for history in historys %}
                   <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ deposite.date.date }}</td>
-                    <td>{{ deposite.amount }}</td>
+                    <td>{{ history.date.date }}</td>
+                    <td>{{ history.amount }}</td>
+                  </tr>
+                  {% empty %}
+                  <tr class="text-center text-danger">
+                      <td colspan="3">You dont have any Transaction history.</td>
                   </tr>
                   {% endfor %}
+
             
             
                 </tbody>

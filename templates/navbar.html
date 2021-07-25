@@ -5,7 +5,7 @@
 
       <!-- Brand -->
       <a class="navbar-brand waves-effect" href="/">
-        <strong class="text-white text-bolder">{{ request.user.username }}</strong>
+        <strong class="text-white text-bolder">PerEx</strong>
       </a>
 
       <!-- Collapse -->
@@ -19,25 +19,30 @@
 
         <!-- Left -->
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+          <li class="nav-item ">
             <a class="nav-link waves-effect" href="/">Home
             </a>
           </li>
-          
+          {% if request.user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link waves-effect" href="{% url 'finance:history' %}">
             History
           </a>
           </li>
+          {% endif %}
         </ul>
 
         <!-- Right -->
         <ul class="navbar-nav nav-flex-icons">
+          {% if request.user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link waves-effect btn btn-danger btn-sm" href="{% url 'finance:logout' %}">
               <span class="clearfix d-block d-sm-inline-block"> Logout </span>
             </a>
           </li>
+          {% else %}
+
+          {%endif%}
         </ul>
       </div>
 

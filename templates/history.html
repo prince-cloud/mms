@@ -1,22 +1,30 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-{% load static %}
-
 {% block content %}
+
 <div class="container">
-    <div class="row text-center">
-            <div class="col-12">
-                <h2>History</h2>
+
+    <div class="col-12 px-1 mt-5">
+
+        <div class="row d-flex align-items-center py-5 justify-content-center h-min-100vh">
+            <div class="col-md-8">
+                <div class="bg-gray px-3 px-sm-4 p-md-5 shadow white-bg">
+                    <h3 class="text-center text-bolder text-dark mt-3">Select Hisotry Type</h3>
+                    <br>
+                    <form method="POST" enctype="multipart/form-data" class="bg-white text-dark shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                        {% csrf_token %}
+                        
+                        {{ form|crispy}}
+
+                        <p><input class="btn btn-dark btn-large mb-3" type="submit" value="Continue"></p>
+                    </form>
+
+
+                </div>
             </div>
-    </div>
-    <div class="row text-center p-2">
-        <div class="col-md-6 text-center py-5">
-            <a href="{% url 'finance:expenditure_history' %}" class="btn btn-info btn-block py-5"> Expenditure </a>
-        </div>
-        <div class="col-md-6 text-center py-5">
-            <a href="{% url 'finance:deposite_history' %}" class="btn btn-warning btn-block py-5"> Deposite </a>
         </div>
     </div>
 </div>
+
 
 {% endblock %}

@@ -2,91 +2,159 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-        </div>
-        <div class="col-md-6">
-            <div class="shadow-sm p-2 py-2vh">
-                <div class="text-center">
-                    <p class="text-uppercase text-bold">{{ request.user.last_name }} {{ request.user.prince }}</p>
-                    <p>Financial Management System</p>
-                </div>
+<div class="container bg-white shadow">
+    <div class="row head-style wow fadeIn">
+        <div class="col-md-3"></div>
+        <div class="col-md-6   py-3 d-flex flex-column">
+            <div class="d-flex flex-row justify-content-between">
+                <p class="ml-2 font-bolder">My Account</p>
+                <span class="mr-3">
+                    <a href="{% url 'finance:edit_account' request.user.pk %}"><i class="fas fa-cog text-dark"></i></a>
+                </span>
+            </div>
+
+            <div class="shadow ml-3 mr-3 card bg-dark d-float float text-bolder">
+                <div class="m-3">
+                    <p class="text-white text-bolder">Total Spent: ₵ {{ total_spent }}</p>
+                    <p class="text-white text-bolder">Cash Balance: ₵ {{ cash_balance }}</p>
+                    <p class="text-white text-bolder">Momo Balance: ₵ {{ momo_balance }}</p>
+                </div>            
             </div>
         </div>
     </div>
 
-    <div class="row m-2">
-        <!-- <div class="col-md-4 m-1 p-1 bg-info d-flex justify-content-between flex-row align-items-center">
-            <p>Total Recived: </p>
-            <p class="amount"> GH₵ {{ total_recieved }}</p>
-        </div> -->
-        <div class="col-md-4 m-1 p-1 bg-warning d-flex justify-content-between flex-row align-items-center">
-            <p>Total Spent:</p>
-            <p class="amount">GH₵ {{total_spent}}</p>
+
+    <div class="row text-center wow fadeIn">
+        <div class="col-md-4 p-1 text-center py-2">
+            <a style="border-left: 5px solid red;" href="{% url 'finance:add_expenditure' %}"
+                class="btn btn-style shadow-sm py-5 d-flex flex-row justify-content-between align-items-center">
+                <div class="d-flex flex-row justify-content-between align-items-center">
+                    <i class="fas fa-plus fa-2x mr-3"></i>
+                    <span style="font-size: 18px;" class="font-bolder">Expense</span>
+                </div>
+                <div class="div">
+                    <i class="fas fa-hand-holding-usd fa-3x" id="fade-color"></i>
+                </div>
+
+            </a>
         </div>
-        <div class="col-md-4 m-1 p-1 bg-{% if bank_balance < 1 %}danger{% else %}success{%endif%} d-flex justify-content-between flex-row align-items-center">
-            <p>Bank Balance: </p>
-            <p class="amount">GH₵ {{ bank_balance }}</p>
+
+        <div class="col-md-4 p-1 text-center py-2 wow fadeIn">
+            <a style="border-left: 5px solid green;" href="{% url 'finance:add_cash' %}"
+                class="btn btn-style shadow-sm py-5 d-flex flex-row justify-content-between align-items-center">
+                <div class="d-flex flex-row justify-content-between align-items-center">
+                    <i class="fas fa-plus fa-2x mr-3"></i>
+                    <span style="font-size: 18px;" class="font-bolder">Cash</span>
+                </div>
+                <div class="div">
+                    <i class="fas fa-money-bill-alt fa-3x " id="fade-color"></i>
+
+                </div>
+            </a>
         </div>
-        <div class="col-md-4 m-1 p-1 bg-{% if cash_balance < 1 %}danger{% else %}success{%endif%} d-flex justify-content-between flex-row align-items-center">
-            <p>Cash Balance </p>
-            <p class="amount">GH₵ {{ cash_balance }}</p>
+
+        <div class="col-md-4 p-1 text-center py-2 wow fadeIn">
+            <a style="border-left: 5px solid rgb(144, 184, 14);" href="{% url 'finance:add_momo' %}"
+                class="btn btn-style shadow-sm py-5 d-flex flex-row justify-content-between align-items-center">
+                <div class="d-flex flex-row justify-content-between align-items-center">
+                    <i class="fas fa-plus fa-2x mr-3"></i>
+                    <span style="font-size: 18px;" class="font-bolder">Momo</span>
+                </div>
+                <div class="div">
+                    <i class="fas fa-mobile-alt fa-3x" id="fade-color"></i>
+                </div>
+            </a>
         </div>
+
+        <div class="col-md-4 p-1 text-center py-2 wow fadeIn">
+            <a style="border-left: 5px solid black;" href="{% url 'finance:momo_to_cash' %}"
+                class="btn btn-style shadow-sm py-5 d-flex flex-row justify-content-between align-items-center">
+                <div class="d-flex flex-row justify-content-between align-items-center">
+                    <i class="fas fa-plus fa-2x mr-3"></i>
+                    <span style="font-size: 18px;" class="font-bolder">Momo - Cash</span>
+                </div>
+                <div class="div">
+                    <i class="fas fa-dollar-sign fa-3x " id="fade-color"></i>
+
+                </div>
+            </a>
+        </div>
+
     </div>
 
-    <!-- <div class="row">
+    <div class="row">
         <div class="col-12">
-            <table class="table align-middle">
-                <thead class="table-dark text-center">
-                  <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Detail</th>
-                    <th scope="col">qty</th>
-                    <th scope="col text-center">Amt Paid</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for expenditure in expenditures|slice:":10" %}
-                  <tr>
-                    <td>{{ expenditure.date.date }}</td>
-                    <td>{{ expenditure.description }}</td>
-                    {% if expenditure.quantity %}
-                    <td>{{ expenditure.quantity }}</td>
-                    {% else %}
-                    <td> - </td>
-                    {% endif %}
-                    <td>{{ expenditure.amount_paid }}</td>
-                  </tr>
-                  {% endfor %}
+            <hr style="border-top: 1px solid rgb(216, 216, 216);">
             
-            
-                </tbody>
-              </table>
-        </div>
-    </div> -->
+            <p> <i class="fas fa-history mr-2"></i>  Your Activities </p>
 
-    <div class="row text-center">
-        <div class="col-md-4 p-1 text-center py-2">
-            <a href="{% url 'finance:add_expenditure' %}" class="btn btn-info btn-block py-5">
-                Add Expense
-            </a>
+
+            <div class="row">
+                {% for history in histories|slice:":10" %}
+                <div class="col-md-4 mb-1 wow fadeIn" style="border-bottom: 1px solid rgb(204, 204, 204);">
+                    <div class="">
+                        <div class="row">
+                            <div class="div ml-1 mr-1 col-1 justify-content-center align-items-center d-flex">
+                                {% if history.history_type == "1" %}
+                                <i class="far fa-money-bill-alt"></i>
+                                {% elif history.history_type == "2" %}
+                                <i class="fas fa-mobile-alt"></i>
+                                {% elif history.history_type == "3" %}
+                                <i class="fas fa-dollar-sign"></i>
+                                {% else %}
+                                <i class="fas fa-hand-holding-usd"></i>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-7">
+                                <span class="font-bolder">
+                                    {% if history.history_type == "1" %}
+                                    <span class="font-bolder">Cash</span>
+                                    {% elif history.history_type == "2" %}
+                                    <span class="font-bolder">Momo</span>
+                                    {% elif history.history_type == "3" %}
+                                    <span class="font-bolder">Momo - Cash</span>
+                                    {% else %}
+                                    <span class="font-bolder">Expense</span>
+                                    {% endif %}
+                                </span>
+                                <p style="line-height: 90%;">
+                                    {% if history.history_type == "1" %}
+                                    <span class="font-bolder" style="font-size: 14px;">Transfer from Momo Account to
+                                        Cash Balance.</span>
+                                    {% elif history.history_type == "2" %}
+                                    <span class="font-bolder" style="font-size: 14px;">Deposite to Momo Account</span>
+                                    {% elif history.history_type == "3" %}
+                                    <span class="font-bolder" style="font-size: 14px;">Withdrawn from Momo to
+                                        Cash.</span>
+                                    {% elif history.history_type == "4" %}
+                                    <span class="font-bolder" style="font-size: 14px;">Expense Transaction</span>
+                                    {% endif %}
+                                </p>
+                                <span style="color: grey; font-size: 0.7rem"> {{ history.date }} </span>
+
+                            </div>
+
+                            <div class="ml-2 col-3 align-items-center d-flex justify-content-center"
+                                style="min-width: 10px; max-width:10--px">
+                                <span class="font-bolder d-float d-flex"
+                                    style="font-size: 12px; font-weight: bolder; align-items: right; text-align: right; float: right;">
+                                    ₵ {{ history.amount }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-center text-danger ml-3">You dont have any Activity history.</p>
+                {% endfor %}
+
+            </div>
         </div>
-        <div class="col-md-4 p-1 text-center py-2">
-            <a href="{% url 'finance:add_cash' %}" class="btn btn-info btn-block py-5">
-                Add To Cash
-            </a>
-        </div>
-        <div class="col-md-4 p-1 text-center py-2">
-            <a href="{% url 'finance:add_bank' %}" class="btn btn-info btn-block py-5">
-                Add To Bank
-            </a>
-        </div>
-        <div class="col-md-4 p-1 text-center py-2">
-            <a href="{% url 'finance:bank_to_cash' %}" class="btn btn-info btn-block py-5">
-                Bank to Cash
-            </a>
-        </div>
+
     </div>
+
+    <br>
+
 </div>
 {% endblock %}

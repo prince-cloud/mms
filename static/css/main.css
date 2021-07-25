@@ -138,3 +138,21 @@
 .bg-gray-200{
     background-color: #EEEEEE;
 }
+
+.btn-style{
+    border-radius: 9px;
+}
+
+#fade-color{
+    color: #e6e4e4;
+}
+
+.font-bolder{
+    font-weight: bolder;
+}
+
+.head-style{
+    background-color: rgb(224, 246, 255);
+    background-size: 200px;
+    background-position-y: -900px;
+}

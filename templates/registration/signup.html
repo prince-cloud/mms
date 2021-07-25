@@ -10,17 +10,26 @@
             <div class="col-md-3"></div>
             <div class="col-md-6">
                 <form method="POST" class="shadow-sm p-5 py-5vh">
-                    <h2 class="text-center">Cash Received</h2>
-                    <p>
-                        * Please make sure the amount you are adding has been Received in hand.
-                    </p>
+                    <h2 class="text-center">Sign Up</h2>
+                    <p class="text-center">Sign Up for free</p>
+
                     <br>
                     {% csrf_token %}
                     {{ form | crispy }}
 
+                    {% if user %}
                     <p>
-                        <input type="submit" class="btn btn-lg btn-block btn-dark" value="Add Amount">
+                        <input type="submit" class="btn btn-lg btn-block btn-dark" value="Update">
                     </p>
+                    {% else %}
+                    <p>
+                        <input type="submit" class="btn btn-lg btn-block btn-dark" value="Sign Up">
+                    </p>
+                    {% endif %}
+
+                    <p style="font-size: 16px;">
+                        Alread have an account?  <a href="{% url 'finance:login' %}">Log In</a>.
+                       </p>
 
                 </form>
             </div>

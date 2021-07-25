@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div class="container shadow">
+    <div class="container footer">
+        <h2 class="text-center bg-white text-dark text-bold">
+            Expnditure history
+        </h2>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-center row pb-3">
+
+
+                <div class="col-md-3 mt-2">
+                    <input type="number" class="form-control" placeholder="day" id="day">
+                </div>
+                <div class="col-md-3 mt-2">
+                    <select id="month" class="form-control">
+                        <option value="0" selected>month</option>
+                        <option value="1">January</option>
+                        <option value="2">Febuary</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+
+                    <!-- <input type="number" class="form-control" placeholder="month" id="month"> -->
+                </div>
+                <div class="col-md-3 mt-2">
+                    <input type="number" class="form-control" placeholder="year" id="year">
+                </div>
+
+                <div class="col-3">
+                    <button class="btn btn-success" id="filter">Search</button>
+                </div>
+
+                <script>
+                    let year = document.getElementById("year");
+                    let month = document.getElementById("month");
+                    let day = document.getElementById("day");
+                    let filter = document.getElementById("filter");
+
+                    filter.addEventListener("click", function (e) {
+
+                        let _year = parseInt(year.value);
+                        let _month = parseInt(month.value);
+                        let _day = parseInt(day.value);
+
+                        let route = "{% url 'finance:expenditure_history' %}";
+                        if (_year !== NaN && _year > 0) {
+                            route += + _year;
+                            if (_month !== NaN && _month > 0) {
+                                route += '/' + _month;
+                                if (_day !== NaN && _day > 0) {
+                                    route += '/' + _day;
+                                }
+                            }
+                        }
+                        window.location = route;
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+
+    {% if day or month or year %}
+    <div class="row">
+        <div class="col-md-6">
+            <div>Total Expenditure at <strong> {% if day %} {{ day }} - {%endif %} {% if month %}{{ month }} - 
+                {% endif %} {% if year %}{{ year }}{% endif %}</strong>:
+                <span style="font-weight: bolder;">GH₵ {{ total_expenditure }}</span>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="align-items-center justify-content-center d-flex flex-column">
+    {% for expenditure in expenditures %}
+    <div class="col-md-4 mb-1 wow fadeIn" style="border-bottom: 1px solid rgb(204, 204, 204);">
+        <div class="">
+            <div class="row">
+                <div class="div ml-1 mr-1 col-1 justify-content-center align-items-center d-flex">
+                    {% if expenditure.payment_mode == "Cash" %}
+                    <i class="far fa-money-bill-alt"></i>
+                    {% else %}
+                    <i class="fas fa-mobile-alt"></i>
+                    {% endif %}
+                </div>
+
+                <div class="col-7">
+                    <span class="font-bolder">
+                        {% if expenditure.payment_mode == "Cash" %}
+                        <span class="font-bolder">Cash</span>
+                        {% else %}
+                        <span class="font-bolder">Mobile Money</span>
+                        {% endif %}
+                    </span>
+                    <p style="line-height: 90%;">
+                        {% if expenditure.payment_mode == "Cash" %}
+                        <span class="font-bolder" style="font-size: 14px;">
+                            {{ expenditure.description }} {% if expenditure.quantity %} - Qty: {{ expenditure.quantity}}
+                            {% endif %}
+                        </span>
+                        {% else %}
+                        <span class="font-bolder" style="font-size: 14px;">
+                            {{ expenditure.description }} {% if expenditure.quantity %} - Qty: {{ expenditure.quantity}}
+                            {% endif %}
+                        </span>
+                        {% endif %}
+                    </p>
+                    <span style="color: grey; font-size: 0.7rem"> {{ expenditure.date }} </span>
+
+                </div>
+
+                <div class="ml-2 col-3 align-items-center d-flex justify-content-center"
+                    style="min-width: 10px; max-width:10--px">
+                    <span class="font-bolder d-float d-flex"
+                        style="font-size: 12px; font-weight: bolder; align-items: right; text-align: right;">
+                        ₵ {{ expenditure.amount_paid }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty%}
+    <p class="text-center text-danger"> You dont have Expenditure history</p>
+    {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
