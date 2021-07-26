@@ -29,6 +29,7 @@ def signup(request):
 
     return render(request, "registration/signup.html", {"form":form})
 
+@login_required
 def edit_account(request, pk):
     user = get_object_or_404(User, pk=pk)
     if request.method == "POST":
@@ -47,13 +48,13 @@ def edit_account(request, pk):
 @login_required
 def index(request):
     total_spent = 0
-    total_recieved = 0
+    total_received = 0
 
     expenditures = Expenditure.objects.filter(user=request.user)
     for i in expenditures:
         total_spent += i.amount_paid
 
-    net_balance = total_recieved - total_spent
+    net_balance = total_received - total_spent
 
     cash_balance = request.user.profile.cash_balance
     momo_balance = request.user.profile.momo_balance
@@ -62,7 +63,7 @@ def index(request):
     return render(request, 'index.html', {
         "expenditures": expenditures,
         "total_spent": total_spent,
-        "total_recieved": total_recieved,
+        "total_received": total_received,
         "net_balance": net_balance,
         "cash_balance": cash_balance,
         "momo_balance": momo_balance,
@@ -73,7 +74,7 @@ def index(request):
 @login_required
 def momo_to_cash(request):
     if request.method == "POST":
-        form = AddToCashForm(data=request.POST, files=request.FILES)
+        form = MomoToCashForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             amount = form.cleaned_data['amount']
             if amount > request.user.profile.momo_balance:
@@ -95,14 +96,14 @@ def momo_to_cash(request):
                     request, f"GH₵ {amount} has been successfully deducted from your Bank Blance and added to Cash Balance")
                 return redirect("/")
     else:
-        form = AddToCashForm()
+        form = MomoToCashForm()
     return render(request, "add_momo-cash.html", {"form": form})
 
 
 @login_required
 def add_momo(request):
     if request.method == "POST":
-        form = AddToBankForm(data=request.POST, files=request.FILES)
+        form = AddToMomoForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             amount = form.cleaned_data['amount']
 
@@ -112,21 +113,21 @@ def add_momo(request):
                 user=request.user,
                 amount=amount,
                 history_type=2,
-                date=datetime.date.today()
-
+                date=datetime.date.today(),
+                received_from = form.cleaned_data['received_from']
             )
             messages.success(
-                request, f"GH₵ {amount} has been successfully deposited to your Bank Balance.")
+                request, f"GH₵ {amount} has been successfully deposited to your Momo Balance.")
             return redirect("/")
     else:
-        form = AddToBankForm()
+        form = AddToMomoForm()
     return render(request, "add_momo.html", {"form": form})
 
 
 @login_required
 def add_cash(request):
     if request.method == "POST":
-        form = AddCashkForm(data=request.POST, files=request.FILES)
+        form = AddCashForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             amount = form.cleaned_data['amount']
 
@@ -136,14 +137,14 @@ def add_cash(request):
                 user=request.user,
                 amount=amount,
                 history_type=1,
-                date=datetime.date.today()
-
+                date=datetime.date.today(),
+                received_from = form.cleaned_data['received_from']
             )
             messages.success(
                 request, f"GH₵ {amount} has been successfully added to your Cash Balance.")
             return redirect("/")
     else:
-        form = AddToBankForm()
+        form = AddCashForm()
     return render(request, "add_cash.html", {"form": form})
 
 
@@ -170,7 +171,8 @@ def add_expenditure(request):
                         user=request.user,
                         amount=expenditure.amount_paid,
                         history_type=4,
-                        date=datetime.date.today()
+                        date=datetime.date.today(),
+                        expenditure_description = expenditure.description
                     )
                     return redirect("/")
             elif payment_mode == 'Momo':
@@ -186,7 +188,8 @@ def add_expenditure(request):
                         user=request.user,
                         amount=expenditure.amount_paid,
                         history_type=4,
-                        date=datetime.date.today()
+                        date=datetime.date.today(),
+                        expenditure_description = expenditure.description
                     )
                     return redirect("/")
 

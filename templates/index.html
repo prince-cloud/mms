@@ -120,15 +120,21 @@
                                 </span>
                                 <p style="line-height: 90%;">
                                     {% if history.history_type == "1" %}
-                                    <span class="font-bolder" style="font-size: 14px;">Transfer from Momo Account to
-                                        Cash Balance.</span>
+                                    <span class="font-bolder" style="font-size: 14px;">
+                                        Cash received {%if history.received_from%} from {{ history.received_from }}{% endif %}, has been added to cash balance.
+                                    </span>
                                     {% elif history.history_type == "2" %}
-                                    <span class="font-bolder" style="font-size: 14px;">Deposite to Momo Account</span>
+                                    <span class="font-bolder" style="font-size: 14px;">
+                                        Deposite to Momo Account{%if history.received_from%} from {{ history.received_from }}{% endif %}.
+                                    </span>
                                     {% elif history.history_type == "3" %}
-                                    <span class="font-bolder" style="font-size: 14px;">Withdrawn from Momo to
-                                        Cash.</span>
+                                    <span class="font-bolder" style="font-size: 14px;">
+                                        Withdrawn from Momo to Cash.
+                                    </span>
                                     {% elif history.history_type == "4" %}
-                                    <span class="font-bolder" style="font-size: 14px;">Expense Transaction</span>
+                                    <span class="font-bolder" style="font-size: 14px;">
+                                        {{history.expenditure_description}}
+                                    </span>
                                     {% endif %}
                                 </p>
                                 <span style="color: grey; font-size: 0.7rem"> {{ history.date }} </span>

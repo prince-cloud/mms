@@ -93,13 +93,15 @@ class ExpenditureForm(forms.ModelForm):
         )
 
 
-class AddToCashForm(forms.Form):
+class MomoToCashForm(forms.Form):
     amount = forms.DecimalField(decimal_places=2, max_digits=100)
 
 
-class AddToBankForm(forms.Form):
+class AddToMomoForm(forms.Form):
     amount = forms.DecimalField(decimal_places=2, max_digits=100)
+    received_from = forms.CharField(max_length=100, required=False, label="Received From (optional)")
 
 
-class AddCashkForm(forms.Form):
+class AddCashForm(forms.Form):
     amount = forms.DecimalField(decimal_places=2, max_digits=100)
+    received_from = forms.CharField(max_length=100, required=False, label="Received From (optional)")

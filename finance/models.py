@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.db.models.fields import DecimalField
+from django.forms.models import BaseInlineFormSet
 from django.forms.widgets import NumberInput
 User = get_user_model()
 
@@ -41,14 +42,18 @@ class Expenditure(models.Model):
         ordering = ("-date",)
     
     def __str__(self):
-        return self.description
+        return "".join([str(self.user), " - ",self.description, " - ", str(self.amount_paid)])
 
 class History(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='history')
     amount = models.DecimalField(decimal_places=2, max_digits=100)
     history_type = models.CharField(choices=HISTORY_TYPE, max_length=100)
-
+    expenditure_description = models.CharField(max_length=200, null=True, blank=True)
+    received_from = models.CharField(max_length=100, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ('-date',)
+
+    def __str__ (self):
+        return "".join([str(self.user), "'s transaction of ₵" ,str(self.amount), " - ",str(self.history_type)])
