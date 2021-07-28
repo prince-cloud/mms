@@ -74,6 +74,7 @@
                     <th scope="col">#</th>
                     <th scope="col">date</th>
                     <th scope="col">Amount</th>
+                    <th scope="col">From</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -82,6 +83,8 @@
                     <td>{{ forloop.counter }}</td>
                     <td>{{ history.date.date }}</td>
                     <td>{{ history.amount }}</td>
+                    <td>{{ history.received_from }}</td>
+                    
                   </tr>
                   {% empty %}
                   <tr class="text-center text-danger">
